@@ -606,16 +606,6 @@
             spec: "Referencia organizada en Estructura de cabina.",
             details: ["Marco completo del acceso", "Apoya alineación del cierre", "Recambio para prolongar vida útil de cabina"],
         },
-        {
-            id: "48-paredes-cabina-armal",
-            name: "PAREDES DE CABINA",
-            category: "estructura-cabina",
-            categoryLabel: "ESTRUCTURA DE CABINA",
-            image: "assets/img/catalogo-estructura-cabina/48-paredes-cabina-armal.jpeg",
-            summary: "Paneles laterales de cabina para reposición de estructura.",
-            spec: "Referencia organizada en Estructura de cabina.",
-            details: ["Paredes/paneles sueltos", "No incluye baño completo", "Recambio para reparación de cabina"],
-        },
     ];
 
     const REPUESTOS_FILTER_GROUPS = {
