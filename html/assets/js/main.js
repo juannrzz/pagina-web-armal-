@@ -1,10 +1,96 @@
 ﻿(() => {
     const SLIDE_INTERVAL_MS = 4200;
     const HERO_PALETTES = [
-        { tone1: "#103f87", tone2: "#1c5fd1", tone3: "#0e1631" },
-        { tone1: "#11477f", tone2: "#2b66c9", tone3: "#101b3b" },
-        { tone1: "#15557b", tone2: "#2261b0", tone3: "#0f1936" },
-        { tone1: "#2a4b7b", tone2: "#356ec0", tone3: "#101b3a" },
+        { tone1: "#160f0d", tone2: "#6f2814", tone3: "#100d0c" },
+        { tone1: "#1b110e", tone2: "#8a3014", tone3: "#130e0c" },
+        { tone1: "#21130f", tone2: "#a43a15", tone3: "#160f0d" },
+        { tone1: "#170f0d", tone2: "#5e2516", tone3: "#0f0c0b" },
+    ];
+    const CATALOG_GALLERY_PAGES = Array.from({ length: 6 }, (_, index) => ({
+        src: `assets/img/catalogo-visual/catalogo-armal-${String(index + 1).padStart(2, "0")}.webp`,
+        alt: `Catálogo ARMAL, página ${index + 1}`,
+    }));
+    const CATALOG_HOTSPOTS = [
+        [],
+        [
+            { number: "1", targetId: "31-base-estructural-cabina-armal", label: "BASE", x: 79.0, y: 91.6 },
+            { number: "2", targetId: "47-marco-de-puerta-armal", label: "MARCO PUERTA", x: 67.3, y: 80.9 },
+            { number: "2b", targetId: "46-puerta-completa-armal", label: "PUERTA", x: 63.3, y: 92.2 },
+            { number: "3", targetId: "52-panel-lateral-armal", label: "PANEL LATERAL", x: 98.3, y: 20.7 },
+            { number: "3", targetId: "52-panel-lateral-armal", label: "PANEL LATERAL", x: 95.5, y: 91.4 },
+            { number: "4", targetId: "45-techo-cabina-armal", label: "TECHO", x: 69.9, y: 4.4 },
+            { number: "5a", targetId: "23-tapa-bizcocho", label: "TAPA + BIZCOCHO", x: 57.8, y: 14.6 },
+            { number: "5b", targetId: "23-tapa-bizcocho", label: "TAPA + BIZCOCHO", x: 61.9, y: 15.3 },
+            { number: "6", targetId: "53-lavamanos-interno-armal", label: "LAVAMANOS INTERNO", x: 84.0, y: 91.6 },
+            { number: "7", targetId: "29-caja-de-remaches", label: "REMACHES CAJA X 117 UNDS TIPO ALA", x: 58.1, y: 7.1 },
+            { number: "7", targetId: "29-caja-de-remaches", label: "REMACHES CAJA X 117 UNDS TIPO ALA", x: 89.7, y: 6.3 },
+            { number: "7", targetId: "29-caja-de-remaches", label: "REMACHES CAJA X 117 UNDS TIPO ALA", x: 89.3, y: 91.7 },
+            { number: "8", targetId: "27-papelera", label: "SOPORTE PAPEL HIGIENICO (PAPELERA)", x: 94.4, y: 9.8 },
+            { number: "9", targetId: "28-tubo-porta-papel-en-pasta", label: "BARRA PARA EL SOPORTE DEL PAPEL HIGIENICO", x: 96.3, y: 14.9 },
+            { number: "10", targetId: "04-tapa-base-puerta-derecha", label: "TAPA BASE NEGRO DERECHO", x: 74.6, y: 91.5 },
+            { number: "11", targetId: "05-tapa-base-puerta-izquierda", label: "TAPA BASE NEGRO IZQUIERDO", x: 68.3, y: 91.9 },
+            { number: "12", targetId: "21-orinal", label: "ORINAL", x: 57.0, y: 24.0 },
+            { number: "13", targetId: "22-tubo-orinal-en-pasta", label: "TUBO PARA ORINAL", x: 56.7, y: 31.6 },
+        ],
+        [
+            { number: "1", targetId: "47-marco-de-puerta-armal", label: "MARCO PUERTA", x: 98.4, y: 13.8 },
+            { number: "2", targetId: "46-puerta-completa-armal", label: "PUERTA", x: 67.3, y: 57.5 },
+            { number: "3", targetId: "08-arco-puerta", label: "ARCO PUERTA", x: 77.7, y: 13.9 },
+            { number: "4", targetId: "14-pin-puerta-superior", label: "PASADOR PUERTA SUPERIOR METALICO", x: 90.8, y: 4.0 },
+            { number: "5", targetId: "16-pin-puerta-inferior", label: "PASADOR PUERTA INFERIOR METALICO", x: 84.4, y: 63.5 },
+            { number: "6", targetId: "54-abrazadera-c-resorte", label: "ABRAZADERA EN C PARA RESORTE", x: 60.4, y: 4.3 },
+            { number: "6", targetId: "54-abrazadera-c-resorte", label: "ABRAZADERA EN C PARA RESORTE", x: 62.5, y: 31.9 },
+            { number: "6", targetId: "54-abrazadera-c-resorte", label: "ABRAZADERA EN C PARA RESORTE", x: 83.6, y: 2.6 },
+            { number: "7", targetId: "55-pasador-puerta-central", label: "PASADOR PUERTA CENTRAL", x: 69.2, y: 4.1 },
+            { number: "8", targetId: "51-resorte-armal", label: "RESORTE", x: 58.4, y: 27.7 },
+            { number: "9", targetId: "56-montura-u-resorte", label: "MONTURA EN U PARA RESORTE (REQUIERE 2)", x: 59.5, y: 13.5 },
+            { number: "9", targetId: "56-montura-u-resorte", label: "MONTURA EN U PARA RESORTE (REQUIERE 2)", x: 69.0, y: 30.5 },
+            { number: "10", targetId: "57-perno-cubierta-resorte", label: "PERNO DE LA CUBIERTA DEL RESORTE (REQUIERE 4)", x: 65.2, y: 28.6 },
+            { number: "11", targetId: "58-tuerca-cubierta-resorte", label: "TUERCA DE LA CUBIERTA DEL RESORTE (REQUIERE 4)", x: 71.7, y: 12.3 },
+            { number: "12", targetId: "07-tornillo-tapa-puerta", label: "TORNILLO DEL CUADRANTE DE LA PUERTA (REQUIERE 2)", x: 67.3, y: 66.5 },
+            { number: "13", targetId: "03-tornillo-placa-puerta-ext", label: "TUERCA PARA MANIJA DE LA PUERTA", x: 81.0, y: 78.1 },
+            { number: "14", targetId: "01-manija-roja-puerta", label: "MANIJA PUERTA ROJA", x: 78.0, y: 86.2 },
+            { number: "15", targetId: "02-placa-puerta-pasta", label: "PLACA CUADRANTE INTERNO PUERTA", x: 72.3, y: 96.2 },
+            { number: "16", targetId: "11-indicador-rojo-verde", label: "INDICADOR ROJO-VERDE", x: 58.8, y: 82.3 },
+            { number: "17", targetId: "59-perno-manija-roja", label: "PERNO PARA LA MANIJA ROJA", x: 58.1, y: 95.5 },
+            { number: "18", targetId: "60-placa-frontal-negra", label: "PLACA FRONTAL NEGRA EN PASTA", x: 63.3, y: 97.1 },
+            { number: "19", targetId: "61-tapa-orificio-marco", label: "TAPA DEL ORIFICIO DEL MARCO INTERNO (REQUIERE 2)", x: 91.3, y: 22.2 },
+            { number: "20", targetId: "10-cerrojo-puerta-cantonera", label: "KIT DE CIERRE DE LA PUERTA (CHAPA) 2 PIEZAS", x: 88.1, y: 77.9 },
+            { number: "22", targetId: "50-porta-candado-armal", label: "PORTA CANDADO METALICO (REQUIERE 2)", x: 89.3, y: 37.2 },
+            { number: "22", targetId: "50-porta-candado-armal", label: "PORTA CANDADO METALICO (REQUIERE 2)", x: 68.4, y: 96.1 },
+            { number: "25", targetId: "13-soporte-puerta-u-metalico", label: "SOPORTE PARA PUERTA NUEVO / KIT PAR DE PASADORES EN PASTA PARA LA PUERTA", x: 78.8, y: 4.1 },
+        ],
+        [
+            { number: "1", targetId: "20-set-tornillos-para-tanque", label: "TORNILLO PARA TANQUE REQUIERE 5 UNIDADES", x: 64.1, y: 96.4 },
+            { number: "2", targetId: "29-caja-de-remaches", label: "REMACHES CAJA X 117 UNDS TIPO ALA", x: 55.7, y: 66.2 },
+            { number: "2", targetId: "29-caja-de-remaches", label: "REMACHES CAJA X 117 UNDS TIPO ALA", x: 93.8, y: 62.4 },
+            { number: "3", targetId: "70-tubo-orinal", label: "TUBO ORINAL", x: 54.5, y: 58.6 },
+            { number: "4", targetId: "21-orinal", label: "ORINAL", x: 53.7, y: 34.8 },
+            { number: "5", targetId: "49-tubo-de-ventilacion-armal", label: "TUBO DE VENTILACION", x: 62.3, y: 20.4 },
+            { number: "6a", targetId: "69-bizcocho-tapa-inodoro", label: "BIZCOCHO Y TAPA INODORO", x: 83.9, y: 43.4 },
+            { number: "6b", targetId: "69-bizcocho-tapa-inodoro", label: "BIZCOCHO Y TAPA INODORO", x: 81.9, y: 37.7 },
+            { number: "7", targetId: "64-barra-asiento-inodoro", label: "BARRA PARA ASIENTO DE INODORO", x: 92.6, y: 44.0 },
+            { number: "8", targetId: "65-abrazadera-asiento-inodoro", label: "ABRAZADERA EN C PARA BARRA ASIENTO DE INODORO", x: 92.6, y: 53.7 },
+            { number: "9", targetId: "48-tapa-del-tanque-armal", label: "TAPA TANQUE", x: 93.7, y: 71.6 },
+            { number: "10", targetId: "44-tanque-sanitario-armal", label: "TANQUE", x: 90.9, y: 87.4 },
+        ],
+        [
+            { number: "1", targetId: "42-tapa-del-tanque-armal", label: "BOMBA DE PIE", x: 66.9, y: 94.4 },
+            { number: "2", targetId: "18-kit-filtro", label: "KIT DE FILTROS POR 3 PIEZAS", x: 96.4, y: 92.0 },
+            { number: "3", targetId: "19-flushing-aspersor", label: "BOQUILLA O ASPERSOR", x: 92.4, y: 43.7 },
+            { number: "4", targetId: "24-asiento-sanitario", label: "ASIENTO PARA INODORO", x: 55.3, y: 9.0 },
+            { number: "5", targetId: "17-lengueta", label: "LENGÜETA", x: 53.3, y: 31.4 },
+            { number: "6", targetId: "39-bloque-contrapeso-metalico-armal", label: "CONTRAPESO", x: 48.4, y: 33.2 },
+        ],
+        [
+            { number: "1", targetId: "66-lavamanos-armal", label: "LAVAMANOS", x: 94.6, y: 12.0 },
+            { number: "2", targetId: "67-tapa-tanque-limpieza", label: "TAPA DEL TANQUE DE LIMPIEZA", x: 65.6, y: 16.7 },
+            { number: "3", targetId: "42-tapa-del-tanque-armal", label: "BOMBA DE PIE", x: 65.8, y: 95.2 },
+            { number: "4", targetId: "41-embudo-orinal-conico-armal", label: "LLAVE LAVAMANOS", x: 81.1, y: 4.3 },
+            { number: "5", targetId: "68-remaches-caja-117-lavamanos", label: "REMACHES POR CAJA 117 UND", x: 70.2, y: 4.8 },
+            { number: "6", targetId: "40-rejilla-circular-ventilacion-armal", label: "REJILLA LAVAMANOS", x: 88.0, y: 4.0 },
+            { number: "7", targetId: "38-llave-servicio-hexagonal-armal", label: "LLAVE DE LA TAPA", x: 60.5, y: 11.9 },
+        ],
     ];
 
     const SERVICE_KEYS = ["banos", "duchas", "movilidad", "lavamanos"];
@@ -119,7 +205,7 @@
             "assets/img/catalogo-accesorios-interiores/26-perchero.jpg",
             "assets/img/catalogo-accesorios-interiores/27-papelera.jpg",
             "assets/img/catalogo-accesorios-interiores/28-tubo-porta-papel-en-pasta.jpg",
-            "assets/img/catalogo-accesorios-interiores/29-caja-de-remaches.jpg",
+            "assets/img/catalogo-accesorios-interiores/29-remaches-nuevos.webp",
             "assets/img/catalogo-estructura-cabina/48-paredes-cabina-armal.jpeg",
             "assets/img/catalogo-estructura-cabina/31-base-estructural-cabina-armal.png",
             "assets/img/catalogo-estructura-cabina/32-barra-plastica-reforzada-armal.png",
@@ -134,7 +220,7 @@
             "assets/img/catalogo-tanque-sanitario/41-embudo-orinal-conico-armal.png",
             "assets/img/catalogo-tanque-sanitario/42-tapa-del-tanque-armal.jpeg",
             "assets/img/catalogo-sistema-descarga-recirculacion/43-kit-bomba-sanitaria-armal.jpeg",
-            "assets/img/catalogo-tanque-sanitario/44-tanque-sanitario-armal.jpeg",
+            "assets/img/catalogo-tanque-sanitario/44-tanque-sanitario-nuevo.webp",
             "assets/img/catalogo-estructura-cabina/45-techo-cabina-armal.jpeg",
             "assets/img/catalogo-tanque-sanitario/23-tapa-bizcocho.jpg",
             "assets/img/catalogo-puerta-cierre/04-tapa-base-puerta-derecha.jpg",
@@ -285,16 +371,6 @@
             details: ["Ubicación superior", "Permite giro de puerta", "Recambio puntual"],
         },
         {
-            id: "15-pin-puerta-central",
-            name: "PIN PUERTA CENTRAL",
-            category: "soportes-pines-tornilleria",
-            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
-            image: "assets/img/catalogo-puerta-cierre/15-pin-puerta-central.jpg",
-            summary: "Pin central de soporte para puerta.",
-            spec: "Ítem 15 del catálogo.",
-            details: ["Alineación del sistema", "Estabilidad de puerta", "Repuesto metálico"],
-        },
-        {
             id: "16-pin-puerta-inferior",
             name: "PIN PUERTA INFERIOR",
             category: "soportes-pines-tornilleria",
@@ -429,7 +505,7 @@
             name: "CAJA DE REMACHES (CAJA X 117 UND ALA ANCHA / TIPO TRÉBOL)",
             category: "accesorios-interiores",
             categoryLabel: "ACCESORIOS INTERIORES",
-            image: "assets/img/catalogo-accesorios-interiores/29-caja-de-remaches.jpg",
+            image: "assets/img/catalogo-accesorios-interiores/29-remaches-nuevos.webp",
             summary: "Caja de remaches para fijaciones internas y externas.",
             spec: "Ítem 04 de Accesorios Interiores.",
             details: ["Caja x 117 unidades", "Ala ancha tipo trébol", "Repuesto para mantenimiento"],
@@ -506,21 +582,21 @@
         },
         {
             id: "38-llave-servicio-hexagonal-armal",
-            name: "LLAVE DE SERVICIO HEXAGONAL",
+            name: "LLAVE DE LA TAPA",
             category: "soportes-pines-tornilleria",
             categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
             image: "assets/img/catalogo-puerta-cierre/38-llave-servicio-hexagonal-armal.png",
-            summary: "Llave de operación para ajuste/apertura de componentes con vástago hexagonal.",
+            summary: "Llave ARMAL para apertura y ajuste de la tapa.",
             spec: "Referencia organizada en Puerta y repuestos.",
             details: ["Empuñadura ergonómica", "Vástago metálico hexagonal", "Uso en mantenimiento de módulos sanitarios"],
         },
         {
             id: "39-bloque-contrapeso-metalico-armal",
-            name: "BLOQUE METÁLICO ROSCADO",
+            name: "CONTRAPESO",
             category: "soportes-pines-tornilleria",
             categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
-            image: "assets/img/catalogo-puerta-cierre/39-bloque-contrapeso-metalico-armal.png",
-            summary: "Bloque metálico con rosca interna para anclaje, fijación o estabilización de conjunto.",
+            image: "assets/img/catalogo-puerta-cierre/39-bloque-contrapeso-metalico-clean.png",
+            summary: "Contrapeso metálico para el mecanismo de la lengüeta.",
             spec: "Referencia organizada en Puerta y repuestos.",
             details: ["Cuerpo macizo", "Rosca central", "Aplicación en fijaciones estructurales"],
         },
@@ -530,9 +606,9 @@
             category: "estructura-cabina",
             categoryLabel: "ESTRUCTURA DE CABINA",
             image: "assets/img/catalogo-estructura-cabina/40-rejilla-circular-ventilacion-armal.png",
-            summary: "Rejilla circular con perforaciones de fijación para ventilación y protección.",
+            summary: "Rejilla circular para ventilación y protección de la cabina.",
             spec: "Referencia organizada en Estructura de cabina.",
-            details: ["Diseño ranurado para flujo de aire", "Fijación por tornillería", "Apoyo en control de ventilación interna"],
+            details: ["Diseño circular ranurado", "Fijación por tornillería", "Apoya la ventilación de cabina"],
         },
         {
             id: "41-embudo-orinal-conico-armal",
@@ -540,19 +616,19 @@
             category: "tanque-sanitario",
             categoryLabel: "TANQUE / SANITARIO",
             image: "assets/img/catalogo-tanque-sanitario/41-embudo-orinal-conico-armal.png",
-            summary: "Pieza cónica para captación y conducción en módulo sanitario interno.",
+            summary: "Pieza cónica para captación y conducción en el módulo sanitario.",
             spec: "Referencia organizada en Tanque/Sanitario.",
-            details: ["Diseño de cuerpo cónico", "Ala superior de soporte", "Compatibilidad sujeta a modelo de cabina ARMAL"],
+            details: ["Cuerpo plástico de alta resistencia", "Montaje interior", "Compatibilidad sujeta al modelo ARMAL"],
         },
         {
             id: "42-tapa-del-tanque-armal",
-            name: "TAPA DEL TANQUE",
-            category: "tanque-sanitario",
-            categoryLabel: "TANQUE / SANITARIO",
+            name: "BOMBA DE PIE",
+            category: "sistema-descarga-recirculacion",
+            categoryLabel: "SISTEMA DESCARGA / RECIRCULACIÓN",
             image: "assets/img/catalogo-tanque-sanitario/42-tapa-del-tanque-armal.jpeg",
-            summary: "Tapa superior y cierre del tanque para mantenimiento preventivo o correctivo.",
-            spec: "Referencia organizada en Tanque/Sanitario.",
-            details: ["Cubre el punto superior del conjunto", "Apoya el sellado y la protección del sistema", "Recambio para desgaste, fisura o impacto"],
+            summary: "Bomba accionada con el pie para impulsar el sistema sanitario ARMAL.",
+            spec: "Referencia organizada en Sistema de descarga.",
+            details: ["Accionamiento con el pie", "Dos conexiones para circulación", "Imagen exacta del componente"],
         },
         {
             id: "43-kit-bomba-sanitaria-armal",
@@ -569,7 +645,7 @@
             name: "TANQUE SANITARIO",
             category: "tanque-sanitario",
             categoryLabel: "TANQUE / SANITARIO",
-            image: "assets/img/catalogo-tanque-sanitario/44-tanque-sanitario-armal.jpeg",
+            image: "assets/img/catalogo-tanque-sanitario/44-tanque-sanitario-clean.png",
             summary: "Depósito sanitario para reposición de módulo de residuos o contención.",
             spec: "Referencia organizada en Tanque/Sanitario.",
             details: ["Cuerpo principal del sistema", "Recambio para módulos de alto uso", "Integración con tapa y accesorios de cierre"],
@@ -606,7 +682,282 @@
             spec: "Referencia organizada en Estructura de cabina.",
             details: ["Marco completo del acceso", "Apoya alineación del cierre", "Recambio para prolongar vida útil de cabina"],
         },
+        {
+            id: "48-tapa-del-tanque-armal",
+            name: "TAPA DEL TANQUE",
+            category: "tanque-sanitario",
+            categoryLabel: "TANQUE / SANITARIO",
+            image: "assets/img/official-armal/wave-one-piece-tank.jpg",
+            summary: "Tapa superior del tanque para cierre y protección del conjunto sanitario.",
+            spec: "Referencia organizada en Tanque/Sanitario.",
+            details: ["Cubre el punto superior del tanque", "Ayuda a proteger el sistema interno", "Recambio para desgaste o fisura"],
+        },
+        {
+            id: "49-tubo-de-ventilacion-armal",
+            name: "TUBO DE VENTILACIÓN",
+            category: "estructura-cabina",
+            categoryLabel: "ESTRUCTURA DE CABINA",
+            image: "assets/img/official-armal/wave-tubo-ventilacion-clean.png",
+            summary: "Elemento de ventilación para apoyo del flujo de aire en cabina portátil.",
+            spec: "Referencia organizada en Estructura de cabina.",
+            details: ["Apoya la circulación de aire", "Repuesto para sistema de ventilación", "Imagen de referencia disponible en catálogo"],
+        },
+        {
+            id: "50-porta-candado-armal",
+            name: "PORTA CANDADO",
+            category: "puerta-cierre",
+            categoryLabel: "PUERTA Y CIERRE",
+            image: "assets/img/catalogo-puerta-cierre/50-porta-candado-armal.webp",
+            summary: "Soporte de seguridad para candado en el sistema de puerta.",
+            spec: "Referencia organizada en Puerta y repuestos.",
+            details: ["Apoya cierre de seguridad", "Uso en módulo de puerta", "Recambio para mantenimiento de acceso"],
+        },
+        {
+            id: "51-resorte-armal",
+            name: "RESORTE",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/33-kit-bisagras-puerta-armal.png",
+            summary: "Resorte de apoyo para mecanismos de puerta o retorno de componentes.",
+            spec: "Referencia organizada en Puerta y repuestos.",
+            details: ["Componente de apoyo mecánico", "Uso según configuración de puerta", "Imagen de referencia del conjunto de herrajes"],
+        },
     ];
+
+    REPUESTOS.push(
+        {
+            id: "52-panel-lateral-armal",
+            name: "PANEL LATERAL",
+            category: "estructura-cabina",
+            categoryLabel: "ESTRUCTURA DE CABINA",
+            image: "assets/img/official-armal/wave-panel-lateral-isolated.jpg",
+            summary: "Panel lateral de reposición para la estructura de la cabina.",
+            spec: "N.º parte 3 del catálogo.",
+            details: ["Pared lateral ARMAL aislada", "Panel de HDPE con ventilación moldeada", "Imagen obtenida de la vista oficial ARMAL"],
+        },
+        {
+            id: "53-lavamanos-interno-armal",
+            name: "LAVAMANOS INTERNO",
+            category: "accesorios-interiores",
+            categoryLabel: "ACCESORIOS INTERIORES",
+            image: "assets/img/armal-h2o-handwash.jpg",
+            summary: "Lavamanos interno para cabina sanitaria ARMAL.",
+            spec: "N.º parte 6 del catálogo.",
+            details: ["Imagen oficial ARMAL de referencia", "Instalación interior"],
+        },
+        {
+            id: "54-abrazadera-c-resorte",
+            name: "ABRAZADERA EN C PARA RESORTE",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/33-kit-bisagras-puerta-armal.png",
+            summary: "Abrazadera en C para fijación del conjunto de resorte.",
+            spec: "N.º parte 6 del catálogo de puerta.",
+            details: ["Componente del conjunto de resorte", "Imagen de referencia del kit ARMAL"],
+        },
+        {
+            id: "55-pasador-puerta-central",
+            name: "PASADOR PUERTA CENTRAL",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/15-pin-puerta-central.jpg",
+            summary: "Pasador central para el conjunto de puerta.",
+            spec: "N.º parte 7 del catálogo de puerta.",
+            details: ["Pasador metálico", "Aplicación en el módulo de puerta"],
+        },
+        {
+            id: "56-montura-u-resorte",
+            name: "MONTURA EN U PARA RESORTE (REQUIERE 2)",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/13-soporte-puerta-u-metalico.jpg",
+            summary: "Montura en U para sostener el resorte de la puerta.",
+            spec: "N.º parte 9 del catálogo de puerta.",
+            details: ["Requiere dos unidades", "Soporte metálico"],
+        },
+        {
+            id: "57-perno-cubierta-resorte",
+            name: "PERNO DE LA CUBIERTA DEL RESORTE (REQUIERE 4)",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/07-tornillo-tapa-puerta.jpg",
+            summary: "Perno para fijar la cubierta del resorte.",
+            spec: "N.º parte 10 del catálogo de puerta.",
+            details: ["Requiere cuatro unidades", "Imagen de fijación de referencia"],
+        },
+        {
+            id: "58-tuerca-cubierta-resorte",
+            name: "TUERCA DE LA CUBIERTA DEL RESORTE (REQUIERE 4)",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/03-tornillo-placa-puerta-ext.jpg",
+            summary: "Tuerca para fijar la cubierta del resorte.",
+            spec: "N.º parte 11 del catálogo de puerta.",
+            details: ["Requiere cuatro unidades", "Imagen de fijación de referencia"],
+        },
+        {
+            id: "59-perno-manija-roja",
+            name: "PERNO PARA LA MANIJA ROJA",
+            category: "soportes-pines-tornilleria",
+            categoryLabel: "SOPORTES, PINES Y TORNILLERIA",
+            image: "assets/img/catalogo-puerta-cierre/03-tornillo-placa-puerta-ext.jpg",
+            summary: "Perno de fijación para la manija roja.",
+            spec: "N.º parte 17 del catálogo de puerta.",
+            details: ["Fijación de manija", "Imagen de perno de referencia"],
+        },
+        {
+            id: "60-placa-frontal-negra",
+            name: "PLACA FRONTAL NEGRA EN PASTA",
+            category: "puerta-cierre",
+            categoryLabel: "PUERTA Y CIERRE",
+            image: "assets/img/catalogo-puerta-cierre/02-placa-puerta-pasta.jpg",
+            summary: "Placa frontal negra en pasta para el conjunto de puerta.",
+            spec: "N.º parte 18 del catálogo de puerta.",
+            details: ["Pieza frontal", "Material en pasta"],
+        },
+        {
+            id: "61-tapa-orificio-marco",
+            name: "TAPA DEL ORIFICIO DEL MARCO INTERNO (REQUIERE 2)",
+            category: "puerta-cierre",
+            categoryLabel: "PUERTA Y CIERRE",
+            image: "assets/img/catalogo-puerta-cierre/09-tapa-interna-marco-puerta.jpg",
+            summary: "Tapa para cubrir el orificio del marco interno.",
+            spec: "N.º parte 19 del catálogo de puerta.",
+            details: ["Requiere dos unidades", "Protección del marco interno"],
+        },
+        {
+            id: "62-kit-cerradura-puerta",
+            name: "KIT DE CERRADURA PARA PUERTA (13-14-16-17-18)",
+            category: "puerta-cierre",
+            categoryLabel: "PUERTA Y CIERRE",
+            image: "assets/img/catalogo-puerta-cierre/12-kit-en-pasta-para-puerta.jpg",
+            summary: "Kit de cerradura compuesto por las referencias indicadas.",
+            spec: "N.º parte 23 del catálogo de puerta.",
+            details: ["Incluye referencias 13, 14, 16, 17 y 18", "Kit para mantenimiento de cierre"],
+        },
+        {
+            id: "64-barra-asiento-inodoro",
+            name: "BARRA PARA ASIENTO DE INODORO",
+            category: "tanque-sanitario",
+            categoryLabel: "TANQUE / SANITARIO",
+            image: "assets/img/catalogo-tanque-sanitario/25-tubo-metalico-wasas.jpg",
+            summary: "Barra metálica de soporte para el asiento de inodoro.",
+            spec: "N.º parte 7 del catálogo sanitario.",
+            details: ["Soporte para asiento", "Componente metálico"],
+        },
+        {
+            id: "65-abrazadera-asiento-inodoro",
+            name: "ABRAZADERA EN C PARA BARRA ASIENTO DE INODORO",
+            category: "tanque-sanitario",
+            categoryLabel: "TANQUE / SANITARIO",
+            image: "assets/img/catalogo-tanque-sanitario/25-tubo-metalico-wasas.jpg",
+            summary: "Abrazadera en C para fijar la barra del asiento.",
+            spec: "N.º parte 8 del catálogo sanitario.",
+            details: ["Fijación de barra", "Imagen del conjunto de referencia"],
+        },
+        {
+            id: "66-lavamanos-armal",
+            name: "LAVAMANOS",
+            category: "accesorios-interiores",
+            categoryLabel: "ACCESORIOS INTERIORES",
+            image: "assets/img/armal-h2o-handwash.jpg",
+            summary: "Lavamanos portátil ARMAL.",
+            spec: "N.º parte 1 del catálogo de lavamanos.",
+            details: ["Imagen oficial ARMAL", "Unidad portátil de lavado"],
+        },
+        {
+            id: "67-tapa-tanque-limpieza",
+            name: "TAPA DEL TANQUE DE LIMPIEZA",
+            category: "accesorios-interiores",
+            categoryLabel: "ACCESORIOS INTERIORES",
+            image: "assets/img/armal-h2o-handwash-detail.jpg",
+            summary: "Tapa del tanque de limpieza del lavamanos.",
+            spec: "N.º parte 2 del catálogo de lavamanos.",
+            details: ["Imagen oficial ARMAL de referencia", "Cierre del tanque de limpieza"],
+        },
+        {
+            id: "68-remaches-caja-117-lavamanos",
+            name: "REMACHES POR CAJA 117 UND",
+            category: "accesorios-interiores",
+            categoryLabel: "ACCESORIOS INTERIORES",
+            image: "assets/img/catalogo-accesorios-interiores/29-remaches-nuevos.webp",
+            summary: "Remaches suministrados por caja de 117 unidades.",
+            spec: "N.º parte 5 del catálogo de lavamanos.",
+            details: ["Caja de 117 unidades", "Imagen limpia sobre fondo blanco"],
+        },
+        {
+            id: "69-bizcocho-tapa-inodoro",
+            name: "BIZCOCHO Y TAPA INODORO",
+            category: "tanque-sanitario",
+            categoryLabel: "TANQUE / SANITARIO",
+            image: "assets/img/catalogo-tanque-sanitario/23-tapa-bizcocho.jpg",
+            summary: "Conjunto de bizcocho y tapa para inodoro.",
+            spec: "N.º parte 6A y 6B del catálogo sanitario.",
+            details: ["Conjunto de asiento y tapa", "Repuesto sanitario"],
+        },
+        {
+            id: "70-tubo-orinal",
+            name: "TUBO ORINAL",
+            category: "tanque-sanitario",
+            categoryLabel: "TANQUE / SANITARIO",
+            image: "assets/img/catalogo-tanque-sanitario/22-tubo-orinal-en-pasta.jpg",
+            summary: "Tubo para conexión del orinal.",
+            spec: "N.º parte 3 del catálogo sanitario.",
+            details: ["Conexión para orinal", "Repuesto sanitario"],
+        },
+    );
+
+    const CATALOG_CARD_DEFINITIONS = [
+        ["catalog-base", "BASE", "31-base-estructural-cabina-armal"],
+        ["catalog-marco-puerta", "MARCO PUERTA", "47-marco-de-puerta-armal"],
+        ["catalog-puerta", "PUERTA", "46-puerta-completa-armal"],
+        ["catalog-lavamanos-interno", "LAVAMANOS INTERNO", "53-lavamanos-interno-armal", "assets/img/armal-h2o-handwash.jpg"],
+        ["catalog-techo", "TECHO", "45-techo-cabina-armal"],
+        ["catalog-tapa-bizcocho", "TAPA + BIZCOCHO", "23-tapa-bizcocho"],
+        ["catalog-remaches-117-ala", "REMACHES CAJA X 117 UNDS TIPO ALA", "29-caja-de-remaches"],
+        ["catalog-soporte-papel", "SOPORTE PAPEL HIGIENICO (PAPELERA)", "27-papelera"],
+        ["catalog-barra-papel", "BARRA PARA EL SOPORTE DEL PAPEL HIGIENICO", "28-tubo-porta-papel-en-pasta"],
+        ["catalog-tapa-base-derecho", "TAPA BASE NEGRO DERECHO", "04-tapa-base-puerta-derecha"],
+        ["catalog-tapa-base-izquierdo", "TAPA BASE NEGRO IZQUIERDO", "05-tapa-base-puerta-izquierda"],
+        ["catalog-tubo-para-orinal", "TUBO PARA ORINAL", "22-tubo-orinal-en-pasta"],
+        ["catalog-pasador-superior", "PASADOR PUERTA SUPERIOR METALICO", "14-pin-puerta-superior"],
+        ["catalog-pasador-inferior", "PASADOR PUERTA INFERIOR METALICO", "16-pin-puerta-inferior"],
+        ["catalog-tornillo-cuadrante", "TORNILLO DEL CUADRANTE DE LA PUERTA (REQUIERE 2)", "07-tornillo-tapa-puerta"],
+        ["catalog-tuerca-manija", "TUERCA PARA MANIJA DE LA PUERTA", "03-tornillo-placa-puerta-ext"],
+        ["catalog-manija-roja", "MANIJA PUERTA ROJA", "01-manija-roja-puerta"],
+        ["catalog-placa-cuadrante", "PLACA CUADRANTE INTERNO PUERTA", "02-placa-puerta-pasta"],
+        ["catalog-kit-cierre", "KIT DE CIERRE DE LA PUERTA (CHAPA) 2 PIEZAS", "10-cerrojo-puerta-cantonera", "assets/img/official-armal/door-closure.jpg"],
+        ["catalog-porta-candado", "PORTA CANDADO METALICO (REQUIERE 2)", "50-porta-candado-armal", "assets/img/official-armal/padlock-hooks.jpg"],
+        ["catalog-soporte-puerta-nuevo", "SOPORTE PARA PUERTA NUEVO / KIT PAR DE PASADORES EN PASTA PARA LA PUERTA", "12-kit-en-pasta-para-puerta"],
+        ["catalog-tornillo-tanque", "TORNILLO PARA TANQUE REQUIERE 5 UNIDADES", "20-set-tornillos-para-tanque"],
+        ["catalog-tubo-ventilacion", "TUBO DE VENTILACION", "49-tubo-de-ventilacion-armal", "assets/img/official-armal/wave-tubo-ventilacion-clean.png"],
+        ["catalog-tapa-tanque", "TAPA TANQUE", "48-tapa-del-tanque-armal", "assets/img/official-armal/wave-one-piece-tank.jpg"],
+        ["catalog-tanque", "TANQUE", "44-tanque-sanitario-armal", "assets/img/catalogo-tanque-sanitario/44-tanque-sanitario-clean.png"],
+        ["catalog-kit-filtros", "KIT DE FILTROS POR 3 PIEZAS", "18-kit-filtro"],
+        ["catalog-boquilla-aspersor", "BOQUILLA O ASPERSOR", "19-flushing-aspersor"],
+        ["catalog-asiento-inodoro", "ASIENTO PARA INODORO", "24-asiento-sanitario"],
+        ["catalog-lengueta", "LENGÜETA", "17-lengueta"],
+        ["catalog-contrapeso", "CONTRAPESO", "39-bloque-contrapeso-metalico-armal", "assets/img/catalogo-puerta-cierre/39-bloque-contrapeso-metalico-clean.png"],
+        ["catalog-llave-lavamanos", "LLAVE LAVAMANOS", "66-lavamanos-armal", "assets/img/official-armal/wave-h2o-internal-handwash-details.jpg"],
+        ["catalog-rejilla-lavamanos", "REJILLA LAVAMANOS", "66-lavamanos-armal", "assets/img/official-armal/wave-h2o-internal-handwash-details.jpg"],
+    ];
+
+    const CATALOG_CARD_TARGETS = {};
+    CATALOG_CARD_DEFINITIONS.forEach(([id, name, sourceId, image]) => {
+        const source = REPUESTOS.find((item) => item.id === sourceId);
+        if (!source) return;
+        CATALOG_CARD_TARGETS[name] = id;
+        REPUESTOS.push({
+            ...source,
+            id,
+            name,
+            image: image || source.image,
+            gallery: image ? [image] : source.gallery,
+            summary: `${name}. Referencia identificada con el nombre original del catálogo ARMAL.`,
+            spec: "Nombre conservado exactamente como aparece en el catálogo ARMAL.",
+            details: ["Ficha independiente del catálogo", "No reemplaza ni cambia el nombre de otra pieza", "Imagen ARMAL o imagen exacta disponible del componente"],
+        });
+    });
 
     const REPUESTOS_FILTER_GROUPS = {
         "puerta-repuestos": ["puerta-cierre", "soportes-pines-tornilleria"],
@@ -628,6 +979,7 @@
         "accesorios-interiores",
         "estructura-cabina",
     ];
+    const REPUESTOS_PER_PAGE = 12;
 
     let slideIndex = -1;
     let currentModalService = null;
@@ -637,46 +989,17 @@
     let currentRepuestoImageIndex = 0;
     let repuestoActiveTrigger = null;
     let activeTrigger = null;
-    let activeCatalogTrigger = null;
-    let currentCatalogoVisualIndex = 0;
     let revealObserver = null;
-
-    const CATALOGO_VISUAL_PAGES = [
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-01.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 1",
-            title: "Página 1",
-        },
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-02.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 2",
-            title: "Página 2",
-        },
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-03.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 3",
-            title: "Página 3",
-        },
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-04.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 4",
-            title: "Página 4",
-        },
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-05.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 5",
-            title: "Página 5",
-        },
-        {
-            src: "assets/img/catalogo-pages/catalogo-page-06.png",
-            alt: "Catálogo anterior ARMAL de repuestos - Página 6",
-            title: "Página 6",
-        },
-    ];
+    let currentCatalogGalleryIndex = 0;
+    let currentRepuestoFilter = "all";
+    let currentRepuestoPage = 1;
+    let catalogTouchStartX = null;
+    let heroSlideTimer = null;
 
     const hero = document.querySelector(".hero");
     const slides = Array.from(document.querySelectorAll(".slide"));
     const heroModelBadge = document.getElementById("heroModelBadge");
+    const heroCarousel = document.getElementById("heroCarousel");
     const serviceModal = document.getElementById("serviceModal");
     const modalTitle = document.getElementById("modalTitle");
     const modalDescription = document.getElementById("modalDescription");
@@ -701,25 +1024,24 @@
     const logo = document.getElementById("logoArmal");
     const repuestosGrid = document.getElementById("repuestosGrid");
     const repuestosCount = document.getElementById("repuestosCount");
-    const openCatalogoVisualBtn = document.getElementById("openCatalogoVisualBtn");
-    const catalogoVisualLink = document.querySelector(".catalogo-pdf-link");
-    const catalogoVisualCard = document.getElementById("catalogoVisualCard");
-    const catalogoVisualModal = document.getElementById("catalogoVisualModal");
-    const closeCatalogoVisualBtn = document.getElementById("closeCatalogoVisualBtn");
-    const catalogoVisualImage = document.getElementById("catalogoVisualImage");
-    const prevCatalogoVisualBtn = document.getElementById("prevCatalogoVisualBtn");
-    const nextCatalogoVisualBtn = document.getElementById("nextCatalogoVisualBtn");
-    const catalogoVisualThumbsContainer = document.getElementById("catalogoVisualThumbs");
-    let catalogoVisualThumbs = [];
+    const catalogGalleryStage = document.getElementById("catalogGalleryStage");
+    const catalogGalleryImage = document.getElementById("catalogGalleryImage");
+    const catalogGalleryCounter = document.getElementById("catalogGalleryCounter");
+    const catalogGalleryPrev = document.getElementById("catalogGalleryPrev");
+    const catalogGalleryNext = document.getElementById("catalogGalleryNext");
+    const catalogGalleryToggle = document.getElementById("catalogGalleryToggle");
+    const catalogGalleryContent = document.getElementById("catalogGalleryContent");
+    const catalogHotspots = document.getElementById("catalogHotspots");
+    const catalogGalleryThumbs = Array.from(document.querySelectorAll("[data-catalog-page]"));
 
-    function showSlides() {
+    function renderHeroSlide(index) {
         if (!slides.length || !hero) return;
 
         slides.forEach((slide) => {
             slide.style.display = "none";
         });
 
-        slideIndex = (slideIndex + 1) % slides.length;
+        slideIndex = (index + slides.length) % slides.length;
         slides[slideIndex].style.display = "block";
 
         const activeLabel = slides[slideIndex]?.dataset?.modelLabel;
@@ -732,7 +1054,187 @@
         hero.style.setProperty("--hero-tone-2", activePalette.tone2);
         hero.style.setProperty("--hero-tone-3", activePalette.tone3);
 
-        window.setTimeout(showSlides, SLIDE_INTERVAL_MS);
+    }
+
+    function scheduleHeroSlide() {
+        window.clearTimeout(heroSlideTimer);
+        heroSlideTimer = window.setTimeout(() => {
+            renderHeroSlide(slideIndex + 1);
+            scheduleHeroSlide();
+        }, SLIDE_INTERVAL_MS);
+    }
+
+    function showSlides() {
+        renderHeroSlide(slideIndex + 1);
+        scheduleHeroSlide();
+    }
+
+    function bindHeroCarouselEvents() {
+        heroCarousel?.addEventListener("mouseenter", () => window.clearTimeout(heroSlideTimer));
+        heroCarousel?.addEventListener("mouseleave", scheduleHeroSlide);
+    }
+
+    function bindHeroScrollEffect() {
+        if (!hero) return;
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let ticking = false;
+
+        function resetHeroEffect() {
+            hero.style.setProperty("--hero-title-y", "0px");
+            hero.style.setProperty("--hero-title-scale", "1");
+            hero.style.setProperty("--hero-intro-opacity", "1");
+            hero.style.setProperty("--hero-visual-y", "0px");
+            hero.style.setProperty("--hero-visual-scale", "1");
+            hero.style.setProperty("--hero-panel-opacity", "1");
+            hero.style.setProperty("--hero-panel-y", "0px");
+            hero.style.setProperty("--hero-sheen-opacity", "1");
+            hero.style.setProperty("--hero-opening-opacity", "1");
+            hero.style.setProperty("--hero-opening-y", "0px");
+        }
+
+        function updateHeroEffect() {
+            ticking = false;
+
+            if (reduceMotion || window.innerWidth <= 860) {
+                resetHeroEffect();
+                return;
+            }
+
+            const rect = hero.getBoundingClientRect();
+            const scrollable = Math.max(1, rect.height - window.innerHeight);
+            const rawProgress = Math.min(1, Math.max(0, -rect.top / scrollable));
+            const easedProgress = rawProgress * rawProgress * (3 - 2 * rawProgress);
+            const panelProgress = Math.min(1, rawProgress * 1.35);
+            const openingProgress = Math.min(1, Math.max(0, -rect.top / (window.innerHeight * 0.72)));
+
+            hero.style.setProperty("--hero-title-y", `${Math.round(openingProgress * -54)}px`);
+            hero.style.setProperty("--hero-title-scale", String(1 + openingProgress * 0.07));
+            hero.style.setProperty("--hero-intro-opacity", String(Math.max(0.12, 1 - openingProgress * 0.88)));
+            hero.style.setProperty("--hero-visual-y", `${Math.round(easedProgress * -42)}px`);
+            hero.style.setProperty("--hero-visual-scale", String(1 + easedProgress * 0.018));
+            hero.style.setProperty("--hero-panel-opacity", "1");
+            hero.style.setProperty("--hero-panel-y", "0px");
+            hero.style.setProperty("--hero-sheen-opacity", String(Math.max(0.62, 1 - openingProgress * 0.34)));
+            hero.style.setProperty("--hero-opening-opacity", String(Math.max(0.06, 1 - openingProgress * 0.94)));
+            hero.style.setProperty("--hero-opening-y", `${Math.round(openingProgress * -58)}px`);
+        }
+
+        function requestHeroUpdate() {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(updateHeroEffect);
+        }
+
+        window.addEventListener("scroll", requestHeroUpdate, { passive: true });
+        window.addEventListener("resize", requestHeroUpdate);
+        updateHeroEffect();
+    }
+
+    function setActiveRepuestoFilter(filter = "all") {
+        document.querySelectorAll(".repuestos-filter-btn").forEach((button) => {
+            button.classList.toggle("is-active", (button.dataset.filter || "all") === filter);
+        });
+    }
+
+    function highlightRepuestoCard(targetId) {
+        const card = targetId ? document.querySelector(`[data-repuesto-id="${targetId}"]`) : null;
+        if (!card) return;
+
+        card.scrollIntoView({ behavior: "auto", block: "center" });
+        card.classList.remove("is-target-highlight");
+        window.setTimeout(() => {
+            card.classList.add("is-target-highlight");
+        }, 80);
+        window.setTimeout(() => {
+            card.classList.remove("is-target-highlight");
+        }, 2600);
+    }
+
+    function goToCatalogRepuesto(targetId, catalogName) {
+        if (!targetId) return;
+        const item = REPUESTOS.find((candidate) => candidate.id === targetId);
+        if (!item) return;
+        const allFilterActive = document.querySelector('.repuestos-filter-btn[data-filter="all"]')?.classList.contains("is-active");
+        setActiveRepuestoFilter("all");
+        if (!allFilterActive) {
+            renderRepuestos("all");
+        }
+        openRepuestoModal({ ...item, name: catalogName || item.name });
+    }
+
+    function renderCatalogHotspots() {
+        if (!catalogHotspots) return;
+
+        const hotspots = CATALOG_HOTSPOTS[currentCatalogGalleryIndex] || [];
+        catalogHotspots.innerHTML = "";
+        const renderedNumbers = new Set();
+
+        hotspots.forEach((hotspot) => {
+            if (renderedNumbers.has(hotspot.number)) return;
+            renderedNumbers.add(hotspot.number);
+
+            const button = document.createElement("button");
+            button.className = "catalog-hotspot";
+            button.type = "button";
+            button.style.left = `${hotspot.x}%`;
+            button.style.top = `${hotspot.y}%`;
+            button.setAttribute("aria-label", `Ver repuesto ${hotspot.number}: ${hotspot.label}`);
+            button.addEventListener("click", () => goToCatalogRepuesto(CATALOG_CARD_TARGETS[hotspot.label] || hotspot.targetId, hotspot.label));
+            catalogHotspots.appendChild(button);
+        });
+    }
+
+    function showCatalogGalleryPage(index) {
+        if (!catalogGalleryImage || !catalogGalleryCounter || !CATALOG_GALLERY_PAGES.length) return;
+
+        currentCatalogGalleryIndex = (index + CATALOG_GALLERY_PAGES.length) % CATALOG_GALLERY_PAGES.length;
+        const page = CATALOG_GALLERY_PAGES[currentCatalogGalleryIndex];
+        catalogGalleryImage.src = page.src;
+        catalogGalleryImage.alt = page.alt;
+        catalogGalleryCounter.textContent = `Página ${currentCatalogGalleryIndex + 1} de ${CATALOG_GALLERY_PAGES.length}`;
+
+        catalogGalleryThumbs.forEach((thumb, thumbIndex) => {
+            const isActive = thumbIndex === currentCatalogGalleryIndex;
+            thumb.classList.toggle("is-active", isActive);
+            thumb.setAttribute("aria-current", isActive ? "true" : "false");
+        });
+
+        renderCatalogHotspots();
+    }
+
+    function bindCatalogGalleryEvents() {
+        catalogGalleryPrev?.addEventListener("click", () => showCatalogGalleryPage(currentCatalogGalleryIndex - 1));
+        catalogGalleryNext?.addEventListener("click", () => showCatalogGalleryPage(currentCatalogGalleryIndex + 1));
+
+        catalogGalleryThumbs.forEach((thumb) => {
+            thumb.addEventListener("click", () => {
+                showCatalogGalleryPage(Number(thumb.dataset.catalogPage || 0));
+            });
+        });
+
+        catalogGalleryToggle?.addEventListener("click", () => {
+            if (!catalogGalleryContent) return;
+            const isCollapsed = catalogGalleryContent.classList.toggle("is-collapsed");
+            catalogGalleryToggle.setAttribute("aria-expanded", String(!isCollapsed));
+            const label = catalogGalleryToggle.querySelector(".catalog-gallery-toggle-label");
+            const icon = catalogGalleryToggle.querySelector(".catalog-gallery-toggle-icon");
+            if (label) label.textContent = isCollapsed ? "Ver catálogo" : "Cerrar catálogo";
+            if (icon) icon.textContent = isCollapsed ? "+" : "−";
+        });
+
+        catalogGalleryStage?.addEventListener("touchstart", (event) => {
+            catalogTouchStartX = event.changedTouches[0]?.clientX ?? null;
+        }, { passive: true });
+
+        catalogGalleryStage?.addEventListener("touchend", (event) => {
+            if (catalogTouchStartX === null) return;
+            const touchEndX = event.changedTouches[0]?.clientX ?? catalogTouchStartX;
+            const distance = touchEndX - catalogTouchStartX;
+            catalogTouchStartX = null;
+            if (Math.abs(distance) < 45) return;
+            showCatalogGalleryPage(currentCatalogGalleryIndex + (distance < 0 ? 1 : -1));
+        }, { passive: true });
     }
 
     function rotateCarousel(service) {
@@ -845,7 +1347,14 @@
         const hasMultiple = gallery.length > 1;
         if (prevRepuestoImageBtn) prevRepuestoImageBtn.disabled = !hasMultiple;
         if (nextRepuestoImageBtn) nextRepuestoImageBtn.disabled = !hasMultiple;
+        const nav = prevRepuestoImageBtn?.closest(".repuesto-modal-nav");
+        if (nav) {
+            nav.hidden = !hasMultiple;
+            nav.style.display = hasMultiple ? "" : "none";
+        }
         if (repuestoAngleIndicator) {
+            repuestoAngleIndicator.hidden = !hasMultiple;
+            repuestoAngleIndicator.style.display = hasMultiple ? "" : "none";
             repuestoAngleIndicator.textContent = gallery.length
                 ? `Vista ${currentRepuestoImageIndex + 1} de ${gallery.length}`
                 : "Vista 0 de 0";
@@ -922,61 +1431,6 @@
         }
     }
 
-    function renderCatalogoVisualThumbs() {
-        if (!catalogoVisualThumbsContainer) return;
-
-        const thumbsMarkup = CATALOGO_VISUAL_PAGES.map((page, index) => `
-            <button class="catalogo-thumb${index === 0 ? " is-active" : ""}" type="button" data-index="${index}">
-                <img src="${page.src}" alt="Miniatura ${page.title}" loading="lazy">
-                <span>${page.title}</span>
-            </button>
-        `).join("");
-
-        catalogoVisualThumbsContainer.innerHTML = thumbsMarkup;
-        catalogoVisualThumbs = Array.from(catalogoVisualThumbsContainer.querySelectorAll(".catalogo-thumb"));
-    }
-
-    function updateCatalogoVisual(index = 0) {
-        if (!catalogoVisualImage || !CATALOGO_VISUAL_PAGES.length) return;
-        const normalizedIndex = (index + CATALOGO_VISUAL_PAGES.length) % CATALOGO_VISUAL_PAGES.length;
-        currentCatalogoVisualIndex = normalizedIndex;
-
-        const page = CATALOGO_VISUAL_PAGES[normalizedIndex];
-        catalogoVisualImage.src = page.src;
-        catalogoVisualImage.alt = page.alt;
-
-        catalogoVisualThumbs.forEach((thumb) => {
-            const thumbIndex = Number(thumb.dataset.index);
-            thumb.classList.toggle("is-active", thumbIndex === normalizedIndex);
-        });
-    }
-
-    function openCatalogoVisualModal(trigger = null) {
-        if (!catalogoVisualModal) return;
-        activeCatalogTrigger = trigger;
-        updateCatalogoVisual(currentCatalogoVisualIndex);
-        catalogoVisualModal.style.display = "block";
-        document.body.style.overflow = "hidden";
-        closeCatalogoVisualBtn?.focus();
-    }
-
-    function closeCatalogoVisualModal() {
-        if (!catalogoVisualModal) return;
-        catalogoVisualModal.style.display = "none";
-        document.body.style.overflow = "auto";
-        if (activeCatalogTrigger && typeof activeCatalogTrigger.focus === "function") {
-            activeCatalogTrigger.focus();
-        }
-    }
-
-    function nextCatalogoVisualPage() {
-        updateCatalogoVisual(currentCatalogoVisualIndex + 1);
-    }
-
-    function prevCatalogoVisualPage() {
-        updateCatalogoVisual(currentCatalogoVisualIndex - 1);
-    }
-
     function bindServiceTriggers() {
         const cards = Array.from(document.querySelectorAll(".service-card[data-service]"));
         cards.forEach((card) => {
@@ -1050,55 +1504,6 @@
         });
     }
 
-    function bindCatalogoVisualEvents() {
-        renderCatalogoVisualThumbs();
-
-        catalogoVisualCard?.addEventListener("click", () => openCatalogoVisualModal(catalogoVisualCard));
-        catalogoVisualCard?.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openCatalogoVisualModal(catalogoVisualCard);
-            }
-        });
-
-        openCatalogoVisualBtn?.addEventListener("click", (event) => {
-            event.stopPropagation();
-            openCatalogoVisualModal(openCatalogoVisualBtn);
-        });
-        catalogoVisualLink?.addEventListener("click", (event) => {
-            event.stopPropagation();
-        });
-        closeCatalogoVisualBtn?.addEventListener("click", closeCatalogoVisualModal);
-        prevCatalogoVisualBtn?.addEventListener("click", prevCatalogoVisualPage);
-        nextCatalogoVisualBtn?.addEventListener("click", nextCatalogoVisualPage);
-
-        catalogoVisualThumbs.forEach((thumb) => {
-            thumb.addEventListener("click", () => {
-                const index = Number(thumb.dataset.index);
-                if (Number.isNaN(index)) return;
-                updateCatalogoVisual(index);
-            });
-        });
-
-        catalogoVisualModal?.addEventListener("click", (event) => {
-            if (event.target === catalogoVisualModal) {
-                closeCatalogoVisualModal();
-            }
-        });
-
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape" && catalogoVisualModal?.style.display === "block") {
-                closeCatalogoVisualModal();
-            }
-            if (event.key === "ArrowRight" && catalogoVisualModal?.style.display === "block") {
-                nextCatalogoVisualPage();
-            }
-            if (event.key === "ArrowLeft" && catalogoVisualModal?.style.display === "block") {
-                prevCatalogoVisualPage();
-            }
-        });
-    }
-
     function bindLogo3DEffect() {
         if (!logo) return;
 
@@ -1149,7 +1554,7 @@
 
     function initRevealAnimations() {
         const revealTargets = Array.from(document.querySelectorAll(
-            ".hero-copy, .hero-actions, .hero-signal, .hero-proof, .hero-kpi, .services-title, .services-subtitle, .service-card, .repuestos-title, .repuestos-subtitle, .catalogo-pdf-card, .repuestos-toolbar, .content-head, .why-spotlight, .why-list-item, .highlight-card, .trust-pill, .location, .footer-content"
+            ".hero-copy, .hero-actions, .hero-signal, .hero-proof, .hero-kpi, .services-title, .services-subtitle, .service-card, .catalog-gallery-head, .catalog-gallery, .repuestos-title, .repuestos-subtitle, .repuestos-toolbar, .content-head, .why-spotlight, .why-list-item, .highlight-card, .trust-pill, .location, .footer-content"
         ));
 
         if (typeof IntersectionObserver !== "function") {
@@ -1223,9 +1628,36 @@
             : item.category === filter;
     }
 
-    function renderRepuestos(filter = "all") {
+    function renderRepuestosPagination(totalItems) {
+        const pagination = document.getElementById("repuestosPagination");
+        if (!pagination) return;
+
+        const totalPages = Math.max(1, Math.ceil(totalItems / REPUESTOS_PER_PAGE));
+        pagination.innerHTML = "";
+        pagination.hidden = totalPages <= 1;
+
+        for (let page = 1; page <= totalPages; page += 1) {
+            const button = document.createElement("button");
+            button.className = "repuestos-page-btn";
+            button.type = "button";
+            button.textContent = String(page);
+            button.classList.toggle("is-active", page === currentRepuestoPage);
+            button.setAttribute("aria-label", `Ver página ${page} de repuestos`);
+            if (page === currentRepuestoPage) {
+                button.setAttribute("aria-current", "page");
+            }
+            button.addEventListener("click", () => {
+                renderRepuestos(currentRepuestoFilter, page);
+                document.getElementById("seccion-repuestos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+            pagination.appendChild(button);
+        }
+    }
+
+    function renderRepuestos(filter = "all", page = 1) {
         if (!repuestosGrid || !repuestosCount) return;
 
+        currentRepuestoFilter = filter;
         const groupedCategories = REPUESTOS_FILTER_GROUPS[filter];
         let visibleItems = REPUESTOS;
         if (filter !== "all") {
@@ -1233,13 +1665,20 @@
         }
 
         visibleItems = sortRepuestosByCategory(visibleItems);
+        const totalItems = visibleItems.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / REPUESTOS_PER_PAGE));
+        currentRepuestoPage = Math.min(Math.max(1, page), totalPages);
+        const pageStart = (currentRepuestoPage - 1) * REPUESTOS_PER_PAGE;
+        const pageItems = visibleItems.slice(pageStart, pageStart + REPUESTOS_PER_PAGE);
         repuestosGrid.innerHTML = "";
 
-        visibleItems.forEach((item, index) => {
-            const viewItem = { ...item, displaySpec: getRepuestoDisplaySpec(index, filter) };
+        pageItems.forEach((item, index) => {
+            const viewItem = { ...item, displaySpec: getRepuestoDisplaySpec(pageStart + index, filter) };
             const previewImage = getRepuestoImages(viewItem)[0] || viewItem.image;
             const card = document.createElement("article");
             card.className = "repuesto-card";
+            card.id = `repuesto-${viewItem.id}`;
+            card.dataset.repuestoId = viewItem.id;
             card.setAttribute("role", "button");
             card.setAttribute("tabindex", "0");
             card.setAttribute("aria-label", `Abrir ficha de ${viewItem.name}`);
@@ -1276,7 +1715,10 @@
             repuestosGrid.appendChild(card);
         });
 
-        repuestosCount.textContent = `Mostrando ${visibleItems.length} repuestos`;
+        const visibleStart = totalItems ? pageStart + 1 : 0;
+        const visibleEnd = Math.min(pageStart + pageItems.length, totalItems);
+        repuestosCount.textContent = `Mostrando ${visibleStart}-${visibleEnd} de ${totalItems} repuestos`;
+        renderRepuestosPagination(totalItems);
         initLazyImages();
         applyRevealAnimations(Array.from(repuestosGrid.querySelectorAll(".repuesto-card")));
     }
@@ -1289,7 +1731,7 @@
             button.addEventListener("click", () => {
                 buttons.forEach((candidate) => candidate.classList.remove("is-active"));
                 button.classList.add("is-active");
-                renderRepuestos(button.dataset.filter || "all");
+                renderRepuestos(button.dataset.filter || "all", 1);
             });
         });
 
@@ -1357,11 +1799,14 @@
 
     function init() {
         showSlides();
+        bindHeroCarouselEvents();
+        bindHeroScrollEffect();
+        bindCatalogGalleryEvents();
+        showCatalogGalleryPage(0);
         initServiceCarousels();
         bindServiceTriggers();
         bindModalEvents();
         bindRepuestoModalEvents();
-        bindCatalogoVisualEvents();
         bindLogo3DEffect();
         initRevealAnimations();
         bindCardTilt();
